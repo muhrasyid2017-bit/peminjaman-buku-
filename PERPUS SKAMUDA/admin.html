@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Admin Panel - Perpustakaan SMKN 1</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="admin-styles.css" />
+  </head>
+  <body class="admin-body">
+    <div class="admin-wrapper">
+      <!-- Sidebar Navigation -->
+      <aside class="admin-sidebar">
+        <div class="sidebar-logo">
+          <div class="logo">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 50 50"
+              width="40"
+              height="40"
+            >
+              <circle
+                cx="25"
+                cy="25"
+                r="24"
+                fill="#6366f1"
+                opacity="0.2"
+                stroke="#6366f1"
+                stroke-width="2"
+              />
+              <path
+                d="M18 12c-1.1 0-2 .9-2 2v22c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V14c0-1.1-.9-2-2-2H18zm11 17h-8v-2h8v2zm2-5h-10v-2h10v2zm0-4h-10v-2h10v2z"
+                fill="#0ea5e9"
+              />
+            </svg>
+          </div>
+          <div>
+            <div class="logo-text">ADMIN</div>
+            <div class="logo-subtext">Perpustakaan</div>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a
+            href="#dashboard"
+            class="nav-item active"
+            onclick="switchTab('dashboard', event)"
+          >
+            <span class="icon">📊</span>
+            <span>Dashboard</span>
+          </a>
+          <a href="#books" class="nav-item" onclick="switchTab('books', event)">
+            <span class="icon">📚</span>
+            <span>Kelola Buku</span>
+          </a>
+          <a href="#loans" class="nav-item" onclick="switchTab('loans', event)">
+            <span class="icon">📝</span>
+            <span>Peminjaman</span>
+          </a>
+          <a
+            href="#members"
+            class="nav-item"
+            onclick="switchTab('members', event)"
+          >
+            <span class="icon">👥</span>
+            <span>Anggota</span>
+          </a>
+          <a
+            href="#reports"
+            class="nav-item"
+            onclick="switchTab('reports', event)"
+          >
+            <span class="icon">📈</span>
+            <span>Laporan</span>
+          </a>
+          <a
+            href="#settings"
+            class="nav-item"
+            onclick="switchTab('settings', event)"
+          >
+            <span class="icon">⚙️</span>
+            <span>Pengaturan</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <a
+            href="perpustakaan smkn 1 murung pudak.html"
+            class="nav-item logout"
+          >
+            <span class="icon">🔙</span>
+            <span>Kembali ke Perpustakaan</span>
+          </a>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="admin-main">
+        <!-- Top Bar -->
+        <div class="admin-topbar">
+          <div class="topbar-title">
+            <h1 id="page-title">Dashboard Admin</h1>
+            <p id="page-subtitle">Kelola perpustakaan sekolah Anda</p>
+          </div>
+          <div class="topbar-actions">
+            <div class="user-info">
+              <span class="user-avatar">👤</span>
+              <div>
+                <div class="user-name">Admin</div>
+                <div class="user-role">Kepala Perpustakaan</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="admin-content">
+          <!-- Dashboard Tab -->
+          <div id="dashboard" class="tab-content active">
+            <div class="dashboard-grid">
+              <!-- Statistics Cards -->
+              <div class="stat-card">
+                <div
+                  class="stat-icon"
+                  style="background: linear-gradient(135deg, #6366f1, #0ea5e9)"
+                >
+                  📚
+                </div>
+                <div class="stat-info">
+                  <div class="stat-label">Total Buku</div>
+                  <div class="stat-value" id="stat-books">22</div>
+                  <div class="stat-change">72 total stok</div>
+                </div>
+              </div>
+
+              <div class="stat-card">
+                <div
+                  class="stat-icon"
+                  style="background: linear-gradient(135deg, #ec4899, #f97316)"
+                >
+                  📖
+                </div>
+                <div class="stat-info">
+                  <div class="stat-label">Buku Dipinjam</div>
+                  <div class="stat-value" id="stat-borrowed">0</div>
+                  <div class="stat-change">sedang dipinjam</div>
+                </div>
+              </div>
+
+              <div class="stat-card">
+                <div
+                  class="stat-icon"
+                  style="background: linear-gradient(135deg, #10b981, #3b82f6)"
+                >
+                  👥
+                </div>
+                <div class="stat-info">
+                  <div class="stat-label">Peminjam Aktif</div>
+                  <div class="stat-value" id="stat-members">0</div>
+                  <div class="stat-change">anggota</div>
+                </div>
+              </div>
+
+              <div class="stat-card">
+                <div
+                  class="stat-icon"
+                  style="background: linear-gradient(135deg, #f59e0b, #ef4444)"
+                >
+                  ⚠️
+                </div>
+                <div class="stat-info">
+                  <div class="stat-label">Buku Overdue</div>
+                  <div class="stat-value" id="stat-overdue">0</div>
+                  <div class="stat-change">belum dikembalikan</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="activity-section">
+              <h2>Aktivitas Terbaru</h2>
+              <div class="activity-table">
+                <table id="recent-activity">
+                  <thead>
+                    <tr>
+                      <th>Waktu</th>
+                      <th>Aktivitas</th>
+                      <th>Detail</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="activity-tbody">
+                    <tr>
+                      <td>Baru</td>
+                      <td
+                        colspan="3"
+                        style="text-align: center; color: #9ca3af"
+                      >
+                        Tidak ada aktivitas
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Books Management Tab -->
+          <div id="books" class="tab-content">
+            <div class="section-header">
+              <h2>Kelola Buku</h2>
+              <button class="btn" onclick="openAddBookForm()">
+                + Tambah Buku
+              </button>
+            </div>
+
+            <div class="search-bar">
+              <input
+                type="text"
+                id="books-search"
+                placeholder="Cari buku berdasarkan judul atau penulis..."
+                class="input search-input"
+              />
+            </div>
+
+            <div class="table-wrapper">
+              <table id="books-table" class="admin-table">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Cover</th>
+                    <th>Judul</th>
+                    <th>Penulis</th>
+                    <th>ISBN</th>
+                    <th>Total</th>
+                    <th>Tersedia</th>
+                    <th>Dipinjam</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="books-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Loans Management Tab -->
+          <div id="loans" class="tab-content">
+            <div class="section-header">
+              <h2>Peminjaman</h2>
+              <button class="btn" onclick="openNewLoanForm()">
+                + Buat Peminjaman
+              </button>
+            </div>
+
+            <div class="filter-section">
+              <select id="loan-filter" class="input" onchange="filterLoans()">
+                <option value="all">Semua Peminjaman</option>
+                <option value="active">Aktif (Belum Kembali)</option>
+                <option value="returned">Dikembalikan</option>
+                <option value="overdue">Overdue (Terlambat)</option>
+              </select>
+            </div>
+
+            <div class="table-wrapper">
+              <table id="loans-table" class="admin-table">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Nama Peminjam</th>
+                    <th>Buku</th>
+                    <th>Tanggal Pinjam</th>
+                    <th>Batas Kembali</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="loans-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Members Tab -->
+          <div id="members" class="tab-content">
+            <div class="section-header">
+              <h2>Daftar Anggota</h2>
+              <button class="btn" onclick="openAddMemberForm()">
+                + Tambah Anggota
+              </button>
+            </div>
+
+            <div class="search-bar">
+              <input
+                type="text"
+                id="members-search"
+                placeholder="Cari anggota..."
+                class="input search-input"
+              />
+            </div>
+
+            <div class="table-wrapper">
+              <table id="members-table" class="admin-table">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>NIS/ID</th>
+                    <th>Kelas</th>
+                    <th>Email</th>
+                    <th>Buku Pinjam</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="members-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Reports Tab -->
+          <div id="reports" class="tab-content">
+            <div class="section-header">
+              <h2>Laporan Perpustakaan</h2>
+              <div style="display: flex; gap: 1rem">
+                <button class="btn secondary" onclick="downloadReport('excel')">
+                  📊 Excel
+                </button>
+                <button class="btn secondary" onclick="downloadReport('pdf')">
+                  📄 PDF
+                </button>
+              </div>
+            </div>
+
+            <div class="reports-grid">
+              <div class="report-card">
+                <h3>📊 Statistik Peminjaman</h3>
+                <div class="report-stat">
+                  <div class="report-item">
+                    <span>Total Peminjaman</span>
+                    <strong id="report-total-loans">0</strong>
+                  </div>
+                  <div class="report-item">
+                    <span>Aktif</span>
+                    <strong id="report-active-loans">0</strong>
+                  </div>
+                  <div class="report-item">
+                    <span>Selesai</span>
+                    <strong id="report-returned-loans">0</strong>
+                  </div>
+                  <div class="report-item">
+                    <span>Overdue</span>
+                    <strong id="report-overdue-loans">0</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="report-card">
+                <h3>📚 Statistik Buku</h3>
+                <div class="report-stat">
+                  <div class="report-item">
+                    <span>Total Judul</span>
+                    <strong id="report-total-titles">22</strong>
+                  </div>
+                  <div class="report-item">
+                    <span>Total Stok</span>
+                    <strong id="report-total-stock">72</strong>
+                  </div>
+                  <div class="report-item">
+                    <span>Tersedia</span>
+                    <strong id="report-available">72</strong>
+                  </div>
+                  <div class="report-item">
+                    <span>Dipinjam</span>
+                    <strong id="report-borrowed">0</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="report-card">
+                <h3>👥 Statistik Anggota</h3>
+                <div class="report-stat">
+                  <div class="report-item">
+                    <span>Total Anggota</span>
+                    <strong id="report-total-members">0</strong>
+                  </div>
+                  <div class="report-item">
+                    <span>Aktif Tahun Ini</span>
+                    <strong id="report-active-members">0</strong>
+                  </div>
+                  <div class="report-item">
+                    <span>Dengan Tunggakan</span>
+                    <strong id="report-members-debt">0</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Settings Tab -->
+          <div id="settings" class="tab-content">
+            <div class="section-header">
+              <h2>Pengaturan Sistem</h2>
+            </div>
+
+            <div class="settings-grid">
+              <div class="settings-card">
+                <h3>⚙️ Pengaturan Peminjaman</h3>
+                <div class="form-group">
+                  <label class="label">Durasi Peminjaman Default (hari)</label>
+                  <input
+                    type="number"
+                    id="setting-duration"
+                    class="input"
+                    min="1"
+                    max="90"
+                    value="14"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="label">Denda per Hari (Rp)</label>
+                  <input
+                    type="number"
+                    id="setting-fine"
+                    class="input"
+                    min="0"
+                    value="5000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="label">Buku Maksimal Per Peminjam</label>
+                  <input
+                    type="number"
+                    id="setting-max-books"
+                    class="input"
+                    min="1"
+                    max="10"
+                    value="3"
+                  />
+                </div>
+              </div>
+
+              <div class="settings-card">
+                <h3>🏫 Informasi Sekolah</h3>
+                <div class="form-group">
+                  <label class="label">Nama Sekolah</label>
+                  <input
+                    type="text"
+                    id="setting-school"
+                    class="input"
+                    value="SMKN 1 MURUNG PUDAK"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="label">Alamat</label>
+                  <input
+                    type="text"
+                    id="setting-address"
+                    class="input"
+                    value="Murung Pudak"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="label">Email Perpustakaan</label>
+                  <input
+                    type="email"
+                    id="setting-email"
+                    class="input"
+                    value="perpustakaan@smkn1mp.sch.id"
+                  />
+                </div>
+              </div>
+
+              <div class="settings-card">
+                <h3>🔐 Keamanan</h3>
+                <div class="form-group">
+                  <label class="label">Password Admin</label>
+                  <input
+                    type="password"
+                    id="setting-password"
+                    class="input"
+                    placeholder="Masukkan password baru"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="label">Konfirmasi Password</label>
+                  <input
+                    type="password"
+                    id="setting-password-confirm"
+                    class="input"
+                    placeholder="Konfirmasi password"
+                  />
+                </div>
+                <button class="btn" onclick="changePassword()">
+                  Ubah Password
+                </button>
+              </div>
+
+              <div class="settings-card">
+                <h3>📅 Backup Data</h3>
+                <p style="color: #9ca3af; margin: 1rem 0">
+                  Data perpustakaan disimpan di browser Anda
+                </p>
+                <div style="display: flex; gap: 0.5rem">
+                  <button class="btn secondary" onclick="backupData()">
+                    💾 Backup
+                  </button>
+                  <button class="btn secondary" onclick="restoreData()">
+                    📂 Restore
+                  </button>
+                  <button class="btn secondary" onclick="clearData()">
+                    🗑️ Hapus Semua
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top: 2rem">
+              <button class="btn" onclick="saveSettings()">
+                💾 Simpan Pengaturan
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="admin-modal" class="admin-modal" role="dialog" aria-modal="true">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="modal-title">Form</h3>
+          <button class="modal-close" onclick="closeAdminModal()">✕</button>
+        </div>
+        <div class="modal-body" id="modal-body"></div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="admin-script.js"></script>
+  </body>
+</html>
